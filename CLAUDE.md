@@ -49,13 +49,12 @@ npx tsc --noEmit       # Type check
 
 | Area | Status | Notes |
 |------|--------|-------|
-| Visual polish | Open | User confirmed frames/mana correct, but says "still got work to do" — ask what to fix |
-| GitHub Pages | Done | Live at shembree89.github.io/mse/, auto-deploys on push |
+| Visual polish | In Progress | First round of fixes pushed — card text positions, mana 3D depth, set buttons, keyword editing. User testing from GitHub Pages. |
 
-All Phase 7 items complete (phone layout, mana symbols, set metadata, M15 frames, dual-color frames, layout coords, fonts, art upload). Details in git history.
+All Phase 7 items complete. First visual polish pass done (af0c114). Deployed to GitHub Pages.
 
 ## Next Step
-Ask the user what specific visual polish is needed — they've confirmed the frame and mana symbols look right but haven't specified remaining issues yet.
+Wait for user feedback on the visual polish push — card name/type positions, mana symbol depth, set button visibility, and keyword editing may need further tuning.
 
 ## Key Files
 
@@ -88,3 +87,5 @@ Ask the user what specific visual polish is needed — they've confirmed the fra
 | Art rendered at naturalWidth/Height | Prevents distortion — scale/position applied for cover-fit cropping |
 | HTTPS remote (not SSH) for git push | SSH keys not configured; `gh` CLI handles HTTPS auth |
 | `import.meta.env.BASE_URL` for public asset paths | Vite doesn't rewrite JS template literal paths — CSS `url()` is handled automatically |
+| Card name/type text always black (#1a1a1a) | Real M15 frames have lighter title/type bars — text is always dark regardless of card color |
+| Mana symbol 3D depth via canvas compositing | Radial gradient + drop shadow + bevel arc baked into the composited image (not at render time) |
