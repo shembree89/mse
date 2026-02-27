@@ -13,6 +13,12 @@ npx vite build         # Production build
 npx tsc --noEmit       # Type check
 ```
 
+## Deployment
+- **GitHub Pages**: https://shembree89.github.io/mse/
+- Auto-deploys on push to `main` via `.github/workflows/deploy.yml`
+- Vite `base: '/mse/'` — all asset paths use `import.meta.env.BASE_URL`
+- Remote: `https://github.com/shembree89/mse.git` (HTTPS, authenticated via `gh` CLI)
+
 ## Architecture
 
 ### Rendering Pipeline
@@ -44,6 +50,7 @@ npx tsc --noEmit       # Type check
 | Area | Status | Notes |
 |------|--------|-------|
 | Visual polish | Open | User confirmed frames/mana correct, but says "still got work to do" — ask what to fix |
+| GitHub Pages | Done | Live at shembree89.github.io/mse/, auto-deploys on push |
 
 All Phase 7 items complete (phone layout, mana symbols, set metadata, M15 frames, dual-color frames, layout coords, fonts, art upload). Details in git history.
 
@@ -67,6 +74,7 @@ Ask the user what specific visual polish is needed — they've confirmed the fra
 | `src/components/layout/AppShell.tsx` | Responsive shell (phone/tablet/desktop) |
 | `src/stores/editorAtoms.ts` | Jotai atoms for card editor state |
 | `src/fonts.css` | @font-face declarations for all MTG fonts |
+| `.github/workflows/deploy.yml` | GitHub Pages deployment workflow |
 
 ## Recent Decisions
 
@@ -78,3 +86,5 @@ Ask the user what specific visual polish is needed — they've confirmed the fra
 | Frame PNGs excluded from PWA precache | 2-3MB each, too large — use runtime CacheFirst instead |
 | Layout coords from Card Conjurer source | 1500x2100 canvas coords halved to 750x1050, from `/data/scripts/versions/m15/version.js` |
 | Art rendered at naturalWidth/Height | Prevents distortion — scale/position applied for cover-fit cropping |
+| HTTPS remote (not SSH) for git push | SSH keys not configured; `gh` CLI handles HTTPS auth |
+| `import.meta.env.BASE_URL` for public asset paths | Vite doesn't rewrite JS template literal paths — CSS `url()` is handled automatically |
