@@ -142,7 +142,7 @@ export function CardRenderer({ width, height }: CardRendererProps) {
         fontFamily={FONT_TITLE}
         fontSize={NAME_TEXT.fontSize}
         fontStyle="bold"
-        fill={cardName ? frameColors.text : frameColors.text + '66'}
+        fill={cardName ? '#1a1a1a' : '#1a1a1a66'}
         verticalAlign="middle"
         ellipsis
         wrap="none"
@@ -226,7 +226,7 @@ export function CardRenderer({ width, height }: CardRendererProps) {
         fontFamily={FONT_TITLE}
         fontSize={TYPE_TEXT.fontSize}
         fontStyle="bold"
-        fill={typeLine ? frameColors.text : frameColors.text + '66'}
+        fill={typeLine ? '#1a1a1a' : '#1a1a1a66'}
         verticalAlign="middle"
         ellipsis
         wrap="none"

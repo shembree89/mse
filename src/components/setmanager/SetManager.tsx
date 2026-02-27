@@ -74,7 +74,7 @@ export function SetManager() {
               </div>
               <div className="flex items-center justify-between text-xs text-text-muted">
                 <span>{set.cardCount} card{set.cardCount !== 1 ? 's' : ''}</span>
-                <div className="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="flex gap-1">
                   <button
                     onClick={(e) => handleEditSet(e, set.id)}
                     className="rounded px-2 py-1 text-text-secondary hover:bg-surface-3"

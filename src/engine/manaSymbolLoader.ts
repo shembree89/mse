@@ -139,31 +139,72 @@ export function loadManaSymbol(key: string, sym?: ManaSymbol): Promise<HTMLImage
   return promise
 }
 
+/**
+ * Parse hex color to {r,g,b} values.
+ */
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  const n = parseInt(hex.replace('#', ''), 16)
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 }
+}
+
 function compositeSymbol(glyph: HTMLImageElement, bgColor: string): Promise<HTMLImageElement> {
+  // Extra padding for drop shadow
+  const PAD = 8
+  const TOTAL = CANVAS_SIZE + PAD * 2
   const canvas = document.createElement('canvas')
-  canvas.width = CANVAS_SIZE
-  canvas.height = CANVAS_SIZE
+  canvas.width = TOTAL
+  canvas.height = TOTAL
   const ctx = canvas.getContext('2d')!
 
-  const cx = CANVAS_SIZE / 2
-  const cy = CANVAS_SIZE / 2
+  const cx = TOTAL / 2
+  const cy = TOTAL / 2
   const radius = CANVAS_SIZE / 2 - 2
 
-  // Draw circle background
+  // Drop shadow — hard-edged offset shadow like a raised coin
+  ctx.save()
+  ctx.shadowColor = 'rgba(0,0,0,0.55)'
+  ctx.shadowBlur = 3
+  ctx.shadowOffsetX = -2
+  ctx.shadowOffsetY = 3
   ctx.beginPath()
   ctx.arc(cx, cy, radius, 0, Math.PI * 2)
   ctx.fillStyle = bgColor
   ctx.fill()
+  ctx.restore()
 
-  // Draw border
-  ctx.strokeStyle = 'rgba(0,0,0,0.35)'
-  ctx.lineWidth = 3
+  // Radial gradient — lighter top-left highlight, darker bottom-right shadow
+  const { r, g, b } = hexToRgb(bgColor)
+  const highlight = `rgba(${Math.min(r + 30, 255)},${Math.min(g + 30, 255)},${Math.min(b + 30, 255)},1)`
+  const shadow = `rgba(${Math.max(r - 40, 0)},${Math.max(g - 40, 0)},${Math.max(b - 40, 0)},1)`
+  const grad = ctx.createRadialGradient(
+    cx - radius * 0.3, cy - radius * 0.3, radius * 0.1,  // highlight center (upper-left)
+    cx, cy, radius,                                        // circle edge
+  )
+  grad.addColorStop(0, highlight)
+  grad.addColorStop(0.7, bgColor)
+  grad.addColorStop(1, shadow)
+
+  ctx.beginPath()
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2)
+  ctx.fillStyle = grad
+  ctx.fill()
+
+  // Dark border for definition
+  ctx.strokeStyle = 'rgba(0,0,0,0.4)'
+  ctx.lineWidth = 2.5
+  ctx.stroke()
+
+  // Inner edge highlight (subtle bevel — thin bright arc on top-left)
+  ctx.beginPath()
+  ctx.arc(cx, cy, radius - 2, -Math.PI * 0.75, -Math.PI * 0.1)
+  ctx.strokeStyle = 'rgba(255,255,255,0.25)'
+  ctx.lineWidth = 1.5
   ctx.stroke()
 
   // Draw glyph centered, slightly smaller than the circle
   const glyphSize = CANVAS_SIZE * 0.68
-  const glyphX = (CANVAS_SIZE - glyphSize) / 2
-  const glyphY = (CANVAS_SIZE - glyphSize) / 2
+  const glyphX = (TOTAL - glyphSize) / 2
+  const glyphY = (TOTAL - glyphSize) / 2
   ctx.drawImage(glyph, glyphX, glyphY, glyphSize, glyphSize)
 
   return new Promise((resolve, reject) => {

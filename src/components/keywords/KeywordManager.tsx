@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import { useKeywords, createKeyword, deleteKeyword } from '../../db/hooks/useKeywords.ts'
+import { useKeywords, createKeyword, updateKeyword, deleteKeyword } from '../../db/hooks/useKeywords.ts'
 import { useAppStore } from '../../stores/appStore.ts'
 
 export function KeywordManager() {
   const currentSetId = useAppStore((s) => s.currentSetId)
   const keywords = useKeywords(currentSetId)
   const [filter, setFilter] = useState('')
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editName, setEditName] = useState('')
+  const [editReminder, setEditReminder] = useState('')
 
   const filtered = keywords.filter(
     (k) =>
@@ -14,7 +17,7 @@ export function KeywordManager() {
   )
 
   async function handleAddKeyword() {
-    await createKeyword({
+    const id = await createKeyword({
       setId: currentSetId,
       name: 'New Keyword',
       match: '\\bNew Keyword\\b',
@@ -24,6 +27,30 @@ export function KeywordManager() {
       isCustom: true,
       sortOrder: keywords.length,
     })
+    // Immediately open for editing
+    setEditingId(id)
+    setEditName('New Keyword')
+    setEditReminder('(Reminder text here.)')
+  }
+
+  function handleStartEdit(kw: { id: string; name: string; reminderText: string }) {
+    setEditingId(kw.id)
+    setEditName(kw.name)
+    setEditReminder(kw.reminderText)
+  }
+
+  async function handleSaveEdit() {
+    if (!editingId) return
+    await updateKeyword(editingId, {
+      name: editName.trim() || 'Untitled',
+      reminderText: editReminder,
+      match: `\\b${editName.trim()}\\b`,
+    })
+    setEditingId(null)
+  }
+
+  function handleCancelEdit() {
+    setEditingId(null)
   }
 
   return (
@@ -52,31 +79,85 @@ export function KeywordManager() {
             key={kw.id}
             className="flex items-start gap-3 rounded-lg px-4 py-3 hover:bg-surface-2"
           >
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-text-primary">{kw.name}</span>
-                {kw.isEvergreen && (
-                  <span className="rounded bg-success/20 px-1.5 py-0.5 text-xs text-success">
-                    Evergreen
-                  </span>
-                )}
-                {kw.isCustom && (
-                  <span className="rounded bg-accent/20 px-1.5 py-0.5 text-xs text-accent">
-                    Custom
-                  </span>
-                )}
+            {editingId === kw.id ? (
+              /* Inline edit form */
+              <div className="flex flex-1 flex-col gap-2">
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  placeholder="Keyword name"
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSaveEdit()
+                    if (e.key === 'Escape') handleCancelEdit()
+                  }}
+                  className="rounded bg-surface-2 px-3 py-2 text-sm text-text-primary border border-border focus:border-accent focus:outline-none"
+                />
+                <input
+                  type="text"
+                  value={editReminder}
+                  onChange={(e) => setEditReminder(e.target.value)}
+                  placeholder="(Reminder text)"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSaveEdit()
+                    if (e.key === 'Escape') handleCancelEdit()
+                  }}
+                  className="rounded bg-surface-2 px-3 py-2 text-sm italic text-text-muted border border-border focus:border-accent focus:outline-none"
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleSaveEdit}
+                    className="rounded bg-accent px-3 py-1 text-xs font-medium text-surface-0 hover:bg-accent-hover"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className="rounded px-3 py-1 text-xs text-text-muted hover:bg-surface-3"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
-              {kw.reminderText && (
-                <p className="mt-1 text-xs italic text-text-muted">{kw.reminderText}</p>
-              )}
-            </div>
-            {kw.isCustom && (
-              <button
-                onClick={() => deleteKeyword(kw.id)}
-                className="rounded px-2 py-1 text-xs text-danger hover:bg-danger/10"
-              >
-                Delete
-              </button>
+            ) : (
+              /* Display mode */
+              <>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-text-primary">{kw.name}</span>
+                    {kw.isEvergreen && (
+                      <span className="rounded bg-success/20 px-1.5 py-0.5 text-xs text-success">
+                        Evergreen
+                      </span>
+                    )}
+                    {kw.isCustom && (
+                      <span className="rounded bg-accent/20 px-1.5 py-0.5 text-xs text-accent">
+                        Custom
+                      </span>
+                    )}
+                  </div>
+                  {kw.reminderText && (
+                    <p className="mt-1 text-xs italic text-text-muted">{kw.reminderText}</p>
+                  )}
+                </div>
+                {kw.isCustom && (
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() => handleStartEdit(kw)}
+                      className="rounded px-2 py-1 text-xs text-text-secondary hover:bg-surface-3"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => deleteKeyword(kw.id)}
+                      className="rounded px-2 py-1 text-xs text-danger hover:bg-danger/10"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         ))}

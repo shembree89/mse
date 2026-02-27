@@ -147,7 +147,7 @@ async function renderCardToStage(card: Card, artImage: HTMLImageElement | null):
   layer.add(new Konva.Text({
     x: NAME_TEXT.x, y: NAME_TEXT.y, width: NAME_TEXT.width - totalManaWidth - 20, height: NAME_TEXT.height,
     text: card.name || 'Untitled', fontFamily: FONT_TITLE, fontSize: NAME_TEXT.fontSize,
-    fontStyle: 'bold', fill: fc.text, verticalAlign: 'middle',
+    fontStyle: 'bold', fill: '#1a1a1a', verticalAlign: 'middle',
   }))
 
   // --- Mana symbols (composited colored circles with glyph) ---
@@ -188,7 +188,7 @@ async function renderCardToStage(card: Card, artImage: HTMLImageElement | null):
   layer.add(new Konva.Text({
     x: TYPE_TEXT.x, y: TYPE_TEXT.y, width: TYPE_TEXT.width - 60, height: TYPE_TEXT.height,
     text: fullTypeLine, fontFamily: FONT_TITLE, fontSize: TYPE_TEXT.fontSize,
-    fontStyle: 'bold', fill: fc.text, verticalAlign: 'middle',
+    fontStyle: 'bold', fill: '#1a1a1a', verticalAlign: 'middle',
   }))
 
   // --- Rules text ---

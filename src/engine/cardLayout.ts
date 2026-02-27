@@ -11,19 +11,19 @@ export const BORDER_RADIUS = 30
 export const ART_BOX = { x: 57, y: 119, width: 635, height: 465 }
 
 // Name bar / card title
-export const NAME_TEXT = { x: 63, y: 94, width: 624, height: 40, fontSize: 38 }
+export const NAME_TEXT = { x: 63, y: 68, width: 624, height: 40, fontSize: 38 }
 
 // Mana cost symbols (positioned from right edge, drawn right-to-left)
 export const MANA_SYMBOL = {
-  size: 35,
+  size: 38,
   spacing: 4,
-  y: 43,           // top of first symbol
+  y: 69,           // top of first symbol
   rightEdge: 658,  // x-center of rightmost symbol
-  step: 39,        // each subsequent symbol shifts left by this
+  step: 42,        // each subsequent symbol shifts left by this
 }
 
 // Type line bar
-export const TYPE_TEXT = { x: 63, y: 632, width: 624, height: 34, fontSize: 32 }
+export const TYPE_TEXT = { x: 63, y: 620, width: 624, height: 34, fontSize: 32 }
 
 // Set/rarity symbol (right side of type bar)
 export const RARITY_SYMBOL = { x: 691, y: 621, size: 36 }
