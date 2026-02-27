@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface-0: #0f0f14;
+  --color-surface-1: #16161e;
+  --color-surface-2: #1e1e2a;
+  --color-surface-3: #2a2a3a;
+  --color-border: #363646;
+  --color-text-primary: #dcd7ba;
+  --color-text-secondary: #727169;
+  --color-text-muted: #54546d;
+  --color-accent: #7e9cd8;
+  --color-accent-hover: #7fb4ca;
+  --color-danger: #e82424;
+  --color-success: #98bb6c;
+  --color-warning: #e6c384;
+
+  --color-mana-white: #f9faf4;
+  --color-mana-blue: #0e68ab;
+  --color-mana-black: #150b00;
+  --color-mana-red: #d3202a;
+  --color-mana-green: #00733e;
+  --color-mana-gold: #c9a43d;
+  --color-mana-colorless: #ccc2c0;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-surface-0);
+  color: var(--color-text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent text selection during gestures */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Safe area insets for notched devices */
+.safe-area-inset {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}

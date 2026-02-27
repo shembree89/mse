@@ -1,0 +1,122 @@
+/*
+ * Magic: The Gathering Card Fonts
+ *
+ * Font families registered here for use in card rendering:
+ *   - "Beleren"   : Card name, type line (the distinctive MTG title font)
+ *   - "MPlantin"  : Rules text, flavor text (serif body copy)
+ *   - "Relay"     : Power/toughness numbers
+ *   - "Beleren SC": Small caps variant for headers/subtitles
+ *   - "Gotham"    : Collector info, modern card footers
+ *   - "NDPMTG"    : Mana/card symbols glyph font
+ *
+ * Sources:
+ *   - Card Conjurer (github.com/Investigamer/cardconjurer)
+ *   - Proxyshop (github.com/Investigamer/Proxyshop)
+ *   - mtg-photoshop-automation (github.com/chilli-axe/mtg-photoshop-automation)
+ */
+
+/* ===== Beleren Bold — Card names, type lines ===== */
+@font-face {
+  font-family: "Beleren";
+  src: url("/fonts/beleren-b.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Beleren 2016 Bold (updated version with corrected asterisk glyph) */
+@font-face {
+  font-family: "Beleren2016";
+  src: url("/fonts/Beleren2016-Bold-Asterisk.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Beleren Bold Small Caps — Set names, collector text */
+@font-face {
+  font-family: "Beleren SC";
+  src: url("/fonts/beleren-bsc.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== MPlantin — Rules text (regular) ===== */
+@font-face {
+  font-family: "MPlantin";
+  src: url("/fonts/mplantin.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* MPlantin Italic — Flavor text */
+@font-face {
+  font-family: "MPlantin";
+  src: url("/fonts/mplantin-i.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ===== Plantin MT Pro family — Higher quality Plantin for print export ===== */
+@font-face {
+  font-family: "PlantinMTPro";
+  src: url("/fonts/PlantinMTProRg.TTF") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PlantinMTPro";
+  src: url("/fonts/PlantinMTProRgIt.TTF") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PlantinMTPro";
+  src: url("/fonts/PlantinMTProBold.TTF") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PlantinMTPro";
+  src: url("/fonts/PlantinMTProSemiBdIt.TTF") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ===== Relay Medium — Power/Toughness numbers ===== */
+@font-face {
+  font-family: "Relay";
+  src: url("/fonts/relay-medium.woff2") format("woff2"),
+       url("/fonts/relay-medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== Gotham Medium — Modern card footer/collector info ===== */
+@font-face {
+  font-family: "Gotham";
+  src: url("/fonts/Gotham-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== NDPMTG — Mana and card symbol glyphs ===== */
+@font-face {
+  font-family: "NDPMTG";
+  src: url("/fonts/NDPMTG.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
